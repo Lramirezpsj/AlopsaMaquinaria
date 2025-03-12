@@ -1,7 +1,12 @@
 package vistas;
 
+import com.toedter.calendar.JDateChooser;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -99,6 +104,11 @@ public class PanelHorometros extends javax.swing.JPanel {
         }
 
         jButton1.setText("Filtrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Eliminar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +202,7 @@ public class PanelHorometros extends javax.swing.JPanel {
                 String cliente = String.valueOf(tblHorometros.getValueAt(fila, 3));
                 double h_inicio = Double.parseDouble(String.valueOf(tblHorometros.getValueAt(fila, 4)));
                 double h_final = Double.parseDouble(String.valueOf(tblHorometros.getValueAt(fila, 5)));
-                String turno = String.valueOf(tblHorometros.getValueAt(fila, 6));
+                int turno = Integer.parseInt(String.valueOf(tblHorometros.getValueAt(fila, 6)));
                 String comentarios = String.valueOf(tblHorometros.getValueAt(fila, 7));
                 String operador = String.valueOf(tblHorometros.getValueAt(fila, 8));
 
@@ -242,6 +252,10 @@ public class PanelHorometros extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        buscarFechaEnt();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNuevoHorometro;
@@ -274,6 +288,67 @@ public class PanelHorometros extends javax.swing.JPanel {
             modelo.addRow(obj);
         }
         tblHorometros.setModel(modelo); // Establecer el modelo después de agregar todas las filas
+    }
+
+    // Método para crear y configurar JDateChooser
+    private JDateChooser createJDateChooser() {
+        JDateChooser dateChooser = new JDateChooser();
+        dateChooser.setDateFormatString("yyyy/MM/d HH:mm:ss"); // Formato completo
+        return dateChooser;
+    }
+
+    public void buscarFechaEnt() {
+        // Crear JDateChooser para la fecha de inicio y fin
+        JDateChooser fechaInicioChooser = createJDateChooser();
+        JDateChooser fechaFinChooser = createJDateChooser();
+
+        // Mostrar diálogos de selección de fecha
+        int resultadoInicio = JOptionPane.showConfirmDialog(null, fechaInicioChooser, "Seleccione la fecha de inicio", JOptionPane.OK_CANCEL_OPTION);
+        int resultadoFin = JOptionPane.showConfirmDialog(null, fechaFinChooser, "Seleccione la fecha de fin", JOptionPane.OK_CANCEL_OPTION);
+
+        // Validar si el usuario presionó "Aceptar"
+        if (resultadoInicio == JOptionPane.OK_OPTION && resultadoFin == JOptionPane.OK_OPTION) {
+
+            // Validar que ambas fechas no sean nulas
+            if (fechaInicioChooser.getDate() == null || fechaFinChooser.getDate() == null) {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar ambas fechas.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            LocalDateTime fechaInicio = fechaInicioChooser.getDate().toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate().atStartOfDay(); // 00:00:00
+
+            LocalDateTime fechaFin = fechaFinChooser.getDate().toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate().atTime(LocalTime.MAX); // 23:59:59
+
+            if (fechaInicio.isAfter(fechaFin)) {
+                JOptionPane.showMessageDialog(null, "La fecha de inicio debe ser anterior o igual a la fecha de fin.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Realizar la búsqueda en la base de datos
+            HorometrosDao hDao = new HorometrosDao();
+            List<Horometros> listaHorometros = hDao.buscarFecha(fechaInicio, fechaFin);
+
+            // Limpiar la tabla antes de actualizarla
+            modelo = (DefaultTableModel) tblHorometros.getModel();
+            modelo.setRowCount(0);
+
+            // Agregar las filas encontradas
+            for (Horometros horometros : listaHorometros) {
+                modelo.addRow(new Object[]{
+                    horometros.getId_horometro(),
+                    horometros.getFecha(),
+                    horometros.getMaquina(),
+                    horometros.getCliente(),
+                    horometros.getH_inicio(),
+                    horometros.getH_final(),
+                    horometros.getTurno(),
+                    horometros.getComentarios(),
+                    horometros.getOperador()
+                });
+            }
+        }
     }
 
 }

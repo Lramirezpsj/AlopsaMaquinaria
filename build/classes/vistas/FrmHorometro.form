@@ -27,7 +27,6 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="BtnGuardarHorometro" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnActualizarHorometro" min="-2" max="-2" attributes="0"/>
@@ -134,7 +133,7 @@
             <MatteColorBorder bottom="1" left="0" right="0" top="0"/>
           </Border>
         </Property>
-        <Property name="dateFormatString" type="java.lang.String" value="yyyy/MM/d HH:mm"/>
+        <Property name="dateFormatString" type="java.lang.String" value="yyyy/MM/d HH:mm:ss"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">

@@ -24,7 +24,7 @@ public class PdfHorometros {
             doc.open();
 
             // Imagen del logo
-            Image img = Image.getInstance("src/img/logo.jpg");
+            Image img = Image.getInstance("src/img/Alopsa.png");
 
             // Formato de fecha
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

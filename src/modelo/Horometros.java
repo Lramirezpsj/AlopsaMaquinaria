@@ -16,14 +16,14 @@ public class Horometros {
     private String cliente;
     private double h_inicio;
     private double h_final;
-    private String turno;
+    private int turno;
     private String comentarios;
     private String operador;
 
     public Horometros() {
     }
 
-    public Horometros(int id_horometro, Timestamp fecha, String maquina, String cliente, double h_inicio, double h_final, String turno, String comentarios, String operador) {
+    public Horometros(int id_horometro, Timestamp fecha, String maquina, String cliente, double h_inicio, double h_final, int turno, String comentarios, String operador) {
         this.id_horometro = id_horometro;
         this.fecha = fecha;
         this.maquina = maquina;
@@ -83,11 +83,11 @@ public class Horometros {
         this.h_final = h_final;
     }
 
-    public String getTurno() {
+    public int getTurno() {
         return turno;
     }
 
-    public void setTurno(String turno) {
+    public void setTurno(int turno) {
         this.turno = turno;
     }
 

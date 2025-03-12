@@ -59,7 +59,7 @@ public class FrmHorometro extends javax.swing.JFrame {
 
         txtFechaHorometro.setBackground(new java.awt.Color(222, 222, 222));
         txtFechaHorometro.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        txtFechaHorometro.setDateFormatString("yyyy/MM/d HH:mm");
+        txtFechaHorometro.setDateFormatString("yyyy/MM/d HH:mm:ss");
 
         jLabel2.setText("Máquina:");
 
@@ -123,7 +123,6 @@ public class FrmHorometro extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnGuardarHorometro)
                         .addGap(18, 18, 18)
                         .addComponent(btnActualizarHorometro)
@@ -285,7 +284,7 @@ public class FrmHorometro extends javax.swing.JFrame {
         String cliente = txtClienteHorometro.getSelectedItem().toString();
         double h_inicio = Double.parseDouble(txtHoraInicioHorometro.getText().trim());
         double h_final = Double.parseDouble(txtHoraFinalHorometro.getText().trim());
-        String turno = txtTurnoHorometro.getSelectedItem().toString();
+        int turno = Integer.parseInt(txtTurnoHorometro.getSelectedItem().toString());
         String comentarios = txtComentariosHorometro.getText().toUpperCase();
         String operador = txtOperadorHorometro.getSelectedItem().toString();
 
@@ -331,7 +330,7 @@ public class FrmHorometro extends javax.swing.JFrame {
         String cliente = hrs.getCliente();
         double h_inicio = hrs.getH_inicio();
         double h_final = hrs.getH_final();
-        String turno = hrs.getTurno();
+        int turno = hrs.getTurno();
         String comentarios = hrs.getComentarios();
         String operador = hrs.getOperador();
 
@@ -366,7 +365,7 @@ public class FrmHorometro extends javax.swing.JFrame {
         hrs.setCliente(txtClienteHorometro.getSelectedItem().toString());
         hrs.setH_inicio(Double.parseDouble(txtHoraInicioHorometro.getText().trim()));
         hrs.setH_final(Double.parseDouble(txtHoraFinalHorometro.getText().trim()));
-        hrs.setTurno(txtTurnoHorometro.getSelectedItem().toString());
+        hrs.setTurno(Integer.parseInt(txtTurnoHorometro.getSelectedItem().toString()));
         hrs.setComentarios(txtComentariosHorometro.getText().toUpperCase());
         hrs.setOperador(txtOperadorHorometro.getSelectedItem().toString());
         hrs.setId_horometro(Integer.parseInt(txtIdHorometro.getText()));
